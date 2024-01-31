@@ -15,52 +15,55 @@ class AddBookView extends GetView<AddBookController> {
         centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          children: [
-            TextFormField(
-                controller: controller.judulController,
-                decoration: InputDecoration(hintText: "Masukan Judul"),
-                validator: (value) {
-                  if (value!.length < 2) {
-                    return "judul tidak boleh kosong";
-                  }
-                  return null;
-                }),
-            TextFormField(
-                controller: controller.penulisController,
-                decoration: InputDecoration(hintText: "Masukan Penulis"),
-                validator: (value) {
-                  if (value!.length < 2) {
-                    return "penulis tidak boleh kosong";
-                  }
-                  return null;
-                }),
-            TextFormField(
-                controller: controller.penerbitController,
-                decoration: InputDecoration(hintText: "Masukan Penerbit"),
-                validator: (value) {
-                  if (value!.length < 2) {
-                    return "penerbit tidak boleh kosong";
-                  }
-                  return null;
-                }),
-            TextFormField(
-                controller: controller.tahunterbitController,
-                decoration: InputDecoration(hintText: "Masukan Tahun Terbit"),
-                validator: (value) {
-                  if (value!.length < 2) {
-                    return "tahun terbit tidak boleh kosong";
-                  }
-                  return null;
-                }),
-            Obx(() => controller.loading.value
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: () {
-                      controller.add();
-                    },
-                    child: Text("Tambah")))
-          ],
+        child: Form(
+          key: controller.formkey,
+          child: Column(
+            children: [
+              TextFormField(
+                  controller: controller.judulController,
+                  decoration: InputDecoration(hintText: "Masukan Judul"),
+                  validator: (value) {
+                    if (value!.length < 2) {
+                      return "judul tidak boleh kosong";
+                    }
+                    return null;
+                  }),
+              TextFormField(
+                  controller: controller.penulisController,
+                  decoration: InputDecoration(hintText: "Masukan Penulis"),
+                  validator: (value) {
+                    if (value!.length < 2) {
+                      return "penulis tidak boleh kosong";
+                    }
+                    return null;
+                  }),
+              TextFormField(
+                  controller: controller.penerbitController,
+                  decoration: InputDecoration(hintText: "Masukan Penerbit"),
+                  validator: (value) {
+                    if (value!.length < 2) {
+                      return "penerbit tidak boleh kosong";
+                    }
+                    return null;
+                  }),
+              TextFormField(
+                  controller: controller.tahunterbitController,
+                  decoration: InputDecoration(hintText: "Masukan Tahun Terbit"),
+                  validator: (value) {
+                    if (value!.length < 2) {
+                      return "tahun terbit tidak boleh kosong";
+                    }
+                    return null;
+                  }),
+              Obx(() => controller.loading.value
+                  ? CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () {
+                        controller.add();
+                      },
+                      child: Text("Tambah")))
+            ],
+          ),
         ),
       ),
     );

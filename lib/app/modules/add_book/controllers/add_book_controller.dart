@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:petugas_perpustakaan_kelas_c/app/data/provider/storage_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:petugas_perpustakaan_kelas_c/app/modules/book/controllers/book_controller.dart';
 
 import '../../../data/constant/endpoint.dart';
 import '../../../data/provider/api_provider.dart';
@@ -16,8 +17,8 @@ class AddBookController extends GetxController {
   final TextEditingController penerbitController = TextEditingController();
   final TextEditingController tahunterbitController = TextEditingController();
   final loading = false.obs;
-
   final count = 0.obs;
+  final BookController _bookController = Get.find();
 
   @override
   void onInit() {
@@ -40,14 +41,16 @@ class AddBookController extends GetxController {
         formkey.currentState?.save();
         if (formkey.currentState!.validate()) {
           final response =
-              await ApiProvider.instance().post(Endpoint.book, data: {
-            "judul": judulController.text.toString(),
-            "penulis": penulisController.text.toString(),
-            "penerbit": penerbitController.text.toString(),
-            "tahun_terbit": int.parse(tahunterbitController.text.toString()),
-          });
-          if (response.statusCode == 198) {
-            await StorageProvider.write(StorageKey.status, "logged");
+          await ApiProvider.instance().post(
+              Endpoint.book, data: dio.FormData.fromMap({
+          "judul": judulController.text.toString(),
+          "penulis": penulisController.text.toString(),
+          "penerbit": penerbitController.text.toString(),
+          "tahun_terbit": int.parse(tahunterbitController.text.toString())
+          })
+      );
+          if (response.statusCode == 201) {
+            _bookController.getData();
             Get.back();
           } else {
             Get.snackbar("Sorry", "Login Gagal",
